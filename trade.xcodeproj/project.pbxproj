@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C38D316D0EE29B9D8B447C6 /* libPods-trade.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 307BE660081876C86903A08A /* libPods-trade.a */; };
 		EE37BB4F1D224BDE005685E7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37BB4E1D224BDE005685E7 /* main.m */; };
 		EE37BB521D224BDE005685E7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37BB511D224BDE005685E7 /* AppDelegate.m */; };
 		EE37BB551D224BDE005685E7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37BB541D224BDE005685E7 /* ViewController.m */; };
@@ -16,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		307BE660081876C86903A08A /* libPods-trade.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-trade.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6723F2E0E6C69855035C54B2 /* Pods-trade.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trade.release.xcconfig"; path = "Pods/Target Support Files/Pods-trade/Pods-trade.release.xcconfig"; sourceTree = "<group>"; };
+		86AB930901435504AE619E47 /* Pods-trade.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trade.debug.xcconfig"; path = "Pods/Target Support Files/Pods-trade/Pods-trade.debug.xcconfig"; sourceTree = "<group>"; };
 		EE37BB4A1D224BDE005685E7 /* trade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE37BB4E1D224BDE005685E7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EE37BB501D224BDE005685E7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -33,17 +37,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C38D316D0EE29B9D8B447C6 /* libPods-trade.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9437806130AA84F07713A3D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				307BE660081876C86903A08A /* libPods-trade.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9A4C3C0A4D5B242F4629489 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				86AB930901435504AE619E47 /* Pods-trade.debug.xcconfig */,
+				6723F2E0E6C69855035C54B2 /* Pods-trade.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		EE37BB411D224BDE005685E7 = {
 			isa = PBXGroup;
 			children = (
 				EE37BB4C1D224BDE005685E7 /* trade */,
 				EE37BB4B1D224BDE005685E7 /* Products */,
+				C9A4C3C0A4D5B242F4629489 /* Pods */,
+				9437806130AA84F07713A3D1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,9 +110,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EE37BB611D224BDF005685E7 /* Build configuration list for PBXNativeTarget "trade" */;
 			buildPhases = (
+				33EC00DE036FF6C29378A3DB /* [CP] Check Pods Manifest.lock */,
 				EE37BB461D224BDE005685E7 /* Sources */,
 				EE37BB471D224BDE005685E7 /* Frameworks */,
 				EE37BB481D224BDE005685E7 /* Resources */,
+				E2ADED9B43C03B2131817A33 /* [CP] Embed Pods Frameworks */,
+				CB0C2B8F398B942911DE1415 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -144,6 +171,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		33EC00DE036FF6C29378A3DB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CB0C2B8F398B942911DE1415 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-trade/Pods-trade-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E2ADED9B43C03B2131817A33 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-trade/Pods-trade-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EE37BB461D224BDE005685E7 /* Sources */ = {
@@ -262,6 +337,7 @@
 		};
 		EE37BB621D224BDF005685E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86AB930901435504AE619E47 /* Pods-trade.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = trade/Info.plist;
@@ -273,6 +349,7 @@
 		};
 		EE37BB631D224BDF005685E7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6723F2E0E6C69855035C54B2 /* Pods-trade.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = trade/Info.plist;
@@ -301,6 +378,7 @@
 				EE37BB631D224BDF005685E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
