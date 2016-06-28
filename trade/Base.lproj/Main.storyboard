@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wdi-SQ-3UH">
+                                <rect key="frame" x="0.0" y="20" width="600" height="550"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="tRW-g1-DxI"/>
+                                </connections>
+                            </webView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LKV-hT-SDc">
+                                <rect key="frame" x="50" y="570" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="XWK-0I-clb"/>
+                                    <constraint firstAttribute="height" constant="30" id="XcO-iJ-bwq"/>
+                                </constraints>
+                                <state key="normal" title="GO"/>
+                                <connections>
+                                    <action selector="go:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xf9-4C-p9W"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iEO-nt-8N8">
+                                <rect key="frame" x="110" y="570" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="Byw-XW-fq9"/>
+                                    <constraint firstAttribute="height" constant="30" id="MbW-kT-Aww"/>
+                                </constraints>
+                                <state key="normal" title="ADD"/>
+                                <connections>
+                                    <action selector="add:" destination="BYZ-38-t0r" eventType="touchUpInside" id="elv-yK-uYe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vd6-cy-aJ3">
+                                <rect key="frame" x="181" y="570" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="OEA-Gh-vj0"/>
+                                    <constraint firstAttribute="width" constant="46" id="fRi-fQ-l5f"/>
+                                </constraints>
+                                <state key="normal" title="COPY"/>
+                                <connections>
+                                    <action selector="copy:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Rl-UW-WMw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gp2-8s-6Qp">
+                                <rect key="frame" x="0.0" y="570" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="p88-g1-Vhd"/>
+                                    <constraint firstAttribute="width" constant="46" id="tUM-yt-2ES"/>
+                                </constraints>
+                                <state key="normal" title="ME"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="wdi-SQ-3UH" secondAttribute="trailing" id="2dx-gd-Vzu"/>
+                            <constraint firstItem="LKV-hT-SDc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="30" id="9Ti-zG-zbI"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gp2-8s-6Qp" secondAttribute="bottom" id="ChM-36-Hgo"/>
+                            <constraint firstItem="Gp2-8s-6Qp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="Cmn-V7-Tjn"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="iEO-nt-8N8" secondAttribute="bottom" id="Dvh-Wm-0ix"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="vd6-cy-aJ3" secondAttribute="bottom" id="J6v-xo-pNb"/>
+                            <constraint firstItem="vd6-cy-aJ3" firstAttribute="leading" secondItem="iEO-nt-8N8" secondAttribute="trailing" constant="25" id="S5q-Cy-9p5"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wdi-SQ-3UH" secondAttribute="bottom" constant="30" id="VTX-bb-ecU"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LKV-hT-SDc" secondAttribute="bottom" id="cXN-0q-aVj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LKV-hT-SDc" secondAttribute="trailing" constant="-20" id="h7j-SV-8fj"/>
+                            <constraint firstItem="iEO-nt-8N8" firstAttribute="leading" secondItem="LKV-hT-SDc" secondAttribute="trailing" constant="14" id="iLT-Gz-0Kc"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LKV-hT-SDc" secondAttribute="bottom" id="iUa-Oh-YXx"/>
+                            <constraint firstItem="wdi-SQ-3UH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="suU-cd-MPJ"/>
+                            <constraint firstItem="wdi-SQ-3UH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="swb-oq-GqL"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="h7j-SV-8fj"/>
+                                <exclude reference="iUa-Oh-YXx"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="webview" destination="wdi-SQ-3UH" id="MRF-eu-a3B"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="298" y="429"/>
+        </scene>
+    </scenes>
+</document>
