@@ -48,13 +48,15 @@
             NSString *subItemjs = [NSString stringWithFormat:@"%@.getElementsByClassName('suborder-mod__item___dY2q5')[%@]", itemjs, @(j)];
             NSString *itemNamejs = [subItemjs stringByAppendingString:@".getElementsByTagName('span')[2].innerHTML"];
             NSString *itemPricejs = [subItemjs stringByAppendingString:@".getElementsByTagName('p')[3].innerHTML"];
+            NSString *itemCountjs = [subItemjs stringByAppendingString:@".getElementsByTagName('p')[4].innerHTML"];
             NSString *itemColorjs = [subItemjs stringByAppendingString:@".getElementsByTagName('span')[6].getElementsByTagName('span')[2].innerHTML"];
             
             NSString *itemName = [self.webview stringByEvaluatingJavaScriptFromString:itemNamejs];
             NSString *itemPrice = [self.webview stringByEvaluatingJavaScriptFromString:itemPricejs];
+            NSString *itemCount = [self.webview stringByEvaluatingJavaScriptFromString:itemCountjs];
             NSString *itemColor = [self.webview stringByEvaluatingJavaScriptFromString:itemColorjs];
-            NSLog(@"Name:%@，Price:%@, Color:%@", itemName, itemPrice, itemColor);
-            [self.log appendString:[NSString stringWithFormat:@"Name:%@，Price:%@, Color:%@\n", itemName, itemPrice, itemColor]];
+            NSLog(@"Name:%@，Price:%@, Count:%@, Color:%@", itemName, itemPrice, itemCount, itemColor);
+            [self.log appendString:[NSString stringWithFormat:@"Name:%@，Price:%@, Count:%@, Color:%@\n", itemName, itemPrice, itemCount, itemColor]];
         }
     }
     NSString *title = [NSString stringWithFormat:@"%@ items done.", count];
