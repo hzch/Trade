@@ -14,6 +14,8 @@
 		EE37BB581D224BDF005685E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE37BB561D224BDF005685E7 /* Main.storyboard */; };
 		EE37BB5A1D224BDF005685E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE37BB591D224BDF005685E7 /* Assets.xcassets */; };
 		EE37BB5D1D224BDF005685E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE37BB5B1D224BDF005685E7 /* LaunchScreen.storyboard */; };
+		EE37BB6B1D2295AB005685E7 /* CHTradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37BB6A1D2295AB005685E7 /* CHTradeItem.m */; };
+		EE37BB6E1D2296EA005685E7 /* CHDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37BB6D1D2296EA005685E7 /* CHDBManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,10 @@
 		EE37BB591D224BDF005685E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE37BB5C1D224BDF005685E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE37BB5E1D224BDF005685E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE37BB691D2295AB005685E7 /* CHTradeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTradeItem.h; sourceTree = "<group>"; };
+		EE37BB6A1D2295AB005685E7 /* CHTradeItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTradeItem.m; sourceTree = "<group>"; };
+		EE37BB6C1D2296EA005685E7 /* CHDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDBManager.h; sourceTree = "<group>"; };
+		EE37BB6D1D2296EA005685E7 /* CHDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDBManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +92,10 @@
 				EE37BB511D224BDE005685E7 /* AppDelegate.m */,
 				EE37BB531D224BDE005685E7 /* ViewController.h */,
 				EE37BB541D224BDE005685E7 /* ViewController.m */,
+				EE37BB691D2295AB005685E7 /* CHTradeItem.h */,
+				EE37BB6A1D2295AB005685E7 /* CHTradeItem.m */,
+				EE37BB6C1D2296EA005685E7 /* CHDBManager.h */,
+				EE37BB6D1D2296EA005685E7 /* CHDBManager.m */,
 				EE37BB561D224BDF005685E7 /* Main.storyboard */,
 				EE37BB591D224BDF005685E7 /* Assets.xcassets */,
 				EE37BB5B1D224BDF005685E7 /* LaunchScreen.storyboard */,
@@ -227,6 +237,8 @@
 			files = (
 				EE37BB551D224BDE005685E7 /* ViewController.m in Sources */,
 				EE37BB521D224BDE005685E7 /* AppDelegate.m in Sources */,
+				EE37BB6E1D2296EA005685E7 /* CHDBManager.m in Sources */,
+				EE37BB6B1D2295AB005685E7 /* CHTradeItem.m in Sources */,
 				EE37BB4F1D224BDE005685E7 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
