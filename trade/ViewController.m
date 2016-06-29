@@ -96,7 +96,6 @@
             [[CHDBManager sharedInstance] addItem:item];
         }
     }
-    failedCount = 1;
     if (failedCount == 0) {
         [self toastWithTitle:@"All done! Next!"];
     } else {
