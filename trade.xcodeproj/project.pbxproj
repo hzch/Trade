@@ -16,6 +16,7 @@
 		EE37BB5D1D224BDF005685E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE37BB5B1D224BDF005685E7 /* LaunchScreen.storyboard */; };
 		EE37BB6B1D2295AB005685E7 /* CHTradeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37BB6A1D2295AB005685E7 /* CHTradeItem.m */; };
 		EE37BB6E1D2296EA005685E7 /* CHDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37BB6D1D2296EA005685E7 /* CHDBManager.m */; };
+		EE88DC1F1D24B0AD004633E8 /* UIWebView+CHTrade.m in Sources */ = {isa = PBXBuildFile; fileRef = EE88DC1E1D24B0AD004633E8 /* UIWebView+CHTrade.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		EE37BB6A1D2295AB005685E7 /* CHTradeItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTradeItem.m; sourceTree = "<group>"; };
 		EE37BB6C1D2296EA005685E7 /* CHDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDBManager.h; sourceTree = "<group>"; };
 		EE37BB6D1D2296EA005685E7 /* CHDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDBManager.m; sourceTree = "<group>"; };
+		EE88DC1D1D24B0AD004633E8 /* UIWebView+CHTrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+CHTrade.h"; sourceTree = "<group>"; };
+		EE88DC1E1D24B0AD004633E8 /* UIWebView+CHTrade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+CHTrade.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,8 @@
 				EE37BB511D224BDE005685E7 /* AppDelegate.m */,
 				EE37BB531D224BDE005685E7 /* ViewController.h */,
 				EE37BB541D224BDE005685E7 /* ViewController.m */,
+				EE88DC1D1D24B0AD004633E8 /* UIWebView+CHTrade.h */,
+				EE88DC1E1D24B0AD004633E8 /* UIWebView+CHTrade.m */,
 				EE37BB691D2295AB005685E7 /* CHTradeItem.h */,
 				EE37BB6A1D2295AB005685E7 /* CHTradeItem.m */,
 				EE37BB6C1D2296EA005685E7 /* CHDBManager.h */,
@@ -238,6 +243,7 @@
 				EE37BB551D224BDE005685E7 /* ViewController.m in Sources */,
 				EE37BB521D224BDE005685E7 /* AppDelegate.m in Sources */,
 				EE37BB6E1D2296EA005685E7 /* CHDBManager.m in Sources */,
+				EE88DC1F1D24B0AD004633E8 /* UIWebView+CHTrade.m in Sources */,
 				EE37BB6B1D2295AB005685E7 /* CHTradeItem.m in Sources */,
 				EE37BB4F1D224BDE005685E7 /* main.m in Sources */,
 			);

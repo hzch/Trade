@@ -45,6 +45,25 @@
     }
 }
 
+- (NSInteger)cleanDirty
+{
+    NSString *sql = @"select distinct number, name, color from  (select number as oldNumber, name as oldName, color as oldColor from list where oldColor != '无') t1 left join (select number, name, color from list where color = '无') t2 where oldNumber = number and oldName = name";
+    FMResultSet* result_set = [self.db executeQuery:sql];
+    NSInteger count = 0;
+    while ([result_set next]) {
+        NSDictionary* record = [result_set resultDictionary];
+        NSString *deleteSql = @"DELETE from list where number = ? and name = ? and color = ?";
+        NSArray *values = @[record[@"number"],record[@"name"],record[@"color"]];
+        BOOL success = [self.db executeUpdate:deleteSql withArgumentsInArray:values];
+        if (!success) {
+            assert(NO);
+        } else {
+            count++;
+        }
+    }
+    return count;
+}
+
 - (void)addItem:(CHTradeItem*)item
 {
     NSString* sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO list (number,date,dateString,status,refunds,name,color,price,count) VALUES (?,?,?,?,?,?,?,?,?)"];
@@ -67,7 +86,9 @@
     NSError *error;
     [[NSFileManager defaultManager] moveItemAtPath:[self dbPath] toPath:[self savePath] error:&error];
     if (error == nil) {
-        [[self sharedInstance] initDB];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[self sharedInstance] initDB];
+        });
     }
     return error;
 }

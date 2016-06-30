@@ -13,6 +13,7 @@
 
 + (instancetype)sharedInstance;
 - (void)addItem:(CHTradeItem*)item;
+- (NSInteger)cleanDirty;
 + (NSError *)save;
 + (NSError *)clean;
 @end
