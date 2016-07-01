@@ -100,9 +100,9 @@
                                             <constraint firstAttribute="width" constant="50" id="8og-EF-DvZ"/>
                                             <constraint firstAttribute="height" constant="30" id="xli-3v-iur"/>
                                         </constraints>
-                                        <state key="normal" title="FRESH"/>
+                                        <state key="normal" title="MORE"/>
                                         <connections>
-                                            <action selector="fresh:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gqa-f7-WTj"/>
+                                            <action selector="morePage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xfu-kF-Dgn"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziH-qg-3ps">

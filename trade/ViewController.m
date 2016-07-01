@@ -32,12 +32,23 @@
 @end
 
 @implementation ViewController
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    NSInteger cur = [self.webview currentPage];
+    [[NSUserDefaults standardUserDefaults] setValue:@(cur) forKey:@"pageDidReceiveMemoryWarning"];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.moreView.hidden = YES;
     self.autoRuned = NO;
     [CHDBManager sharedInstance];
+    NSNumber *page = [[NSUserDefaults standardUserDefaults] valueForKey:@"pageDidReceiveMemoryWarning"];
+    if (page) {
+        [self log:@"Last receive memory warning in page %@", page];
+    }
     
     [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.taobao.com"]]];
 }
@@ -62,8 +73,8 @@
     [self.webview next];
 }
 
-- (IBAction)fresh:(id)sender {
-    [self.webview reload];
+- (IBAction)morePage:(id)sender {
+    [self.webview morePage];
 }
 
 - (IBAction)foot:(id)sender {
