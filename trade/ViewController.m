@@ -23,21 +23,11 @@
 }
 @end
 
-typedef NS_ENUM(NSUInteger, CHAddStatus) {
-    CHAddStatusOK,
-    CHAddStatusRetry,
-    CHAddStatusError,
-};
-
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 @property (weak, nonatomic) IBOutlet UIView *moreView;
 @property (nonatomic) BOOL autoRuned;
 @property (weak, nonatomic) IBOutlet UITextView *logTextView;
-
-@property (nonatomic) NSMutableArray *noEmptyColors;
-@property (nonatomic) BOOL firstTimeDone;
-@property (nonatomic) NSArray *saveColors;
 
 @end
 
@@ -47,22 +37,6 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
     [super viewDidLoad];
     self.moreView.hidden = YES;
     self.autoRuned = NO;
-    self.noEmptyColors = [NSMutableArray arrayWithArray:[NSArray arrayWithContentsOfFile:[self.class noEmptyColorFilePath]] ?: @[]];
-    self.saveColors = [NSArray arrayWithContentsOfFile:[self.class saveColorFilePath]] ?: @[];
-    if (self.saveColors.count == 0) {
-        self.saveColors = @[@"【侠菩提】霹雳衍生十佛周边手链手钏/星沙石手钏/汉服古装配饰",
-                            @"【汉服二手】褙子、上襦、半臂等",
-                            @"水墨复古线装本仿古速写笔手工本 中国风日记本古风本 礼品",
-                            @"福字锁牌古风璎珞项圈 古风汉服配饰 古装COS 创意手工礼品",
-                            @"{蝶恋花}璎珞项圈 古风汉服配饰 古装COS 创意手工礼品",
-                            @"{寒烟翠}璎珞项圈 古风汉服配饰 古装COS饰品 创意手工礼品",
-                            @"青花复古线装本 仿古速写笔 日记本古风本创意文具礼品",
-                            @"{水云间}璎珞项圈 古风汉服配饰 古装COS 创意手工礼品",
-                            @"青花陶瓷项链古风饰品 /民族风古风毛衣链/创意精美礼品",
-                            @"古风饰品龙凤玉佩对佩岫玉汉白玉 汉服配饰 挂件情侣配件",
-                            @"古风饰品龙凤玉佩对佩岫玉汉白玉"];
-        [self.saveColors writeToFile:[self.class saveColorFilePath] atomically:YES];
-    }
     [CHDBManager sharedInstance];
     
     [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.taobao.com"]]];
@@ -82,7 +56,6 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
 
 #pragma mark - action
 - (IBAction)autoRun:(id)sender {
-    self.saveColors = [NSArray arrayWithContentsOfFile:[self.class saveColorFilePath]] ?: @[];
     self.autoRuned = !self.autoRuned;
     if (self.autoRuned) {
         [self autoRunStep];
@@ -114,7 +87,7 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
 }
 
 - (IBAction)add:(id)sender {
-    [self addNeedStop:NO];
+    [self add];
 }
 
 - (IBAction)save:(id)sender {
@@ -176,8 +149,8 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
         return;
     }
     
-    CHAddStatus status = [self addNeedStop:YES];
-    if (status == CHAddStatusOK) {
+    BOOL success = [self add];
+    if (success) {
         if ([self.webview nextEnable]) {
             [self.webview next];
         } else if ([self.webview morePageEnable]) {
@@ -195,39 +168,12 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
         }
         [self retry];
         return;
-    } else {
-        [self log:@"Retry page %@", @(cur)];
-        if ([self.webview nextEnable]) {
-            [self.webview next];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.webview prev];
-                [self retry];
-            });
-        } else if ([self.webview prevEnable]) {
-            [self.webview prev];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.webview next];
-                [self retry];
-            });
-        } else if ([self.webview isBefore3Months]) {
-            [self.webview before3Months];
-            [self retry];
-        } else {
-            [self.webview latest3Months];
-            [self retry];
-        }
     }
+    self.autoRuned = NO;
 }
 
 - (void)allDone
 {
-    [self.noEmptyColors writeToFile:[self.class noEmptyColorFilePath] atomically:YES];
-    if (!self.firstTimeDone) {
-        self.firstTimeDone = YES;
-        [self.webview latest3Months];
-        [self retry];
-        return;
-    }
     [self log:@"All done!!"];
     self.autoRuned = NO;
 }
@@ -239,9 +185,8 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
     });
 }
 
-- (CHAddStatus)addNeedStop:(BOOL)needStop {
+- (BOOL)add {
     NSInteger count = [self.webview listsCount];
-    NSInteger failedCount = 0;
     for (NSInteger i = 0; i != count; i++) {
         NSString *itemNo = [self.webview itemNoWithIndex:i];
         NSString *itemTime = [self.webview itemTimeWithIndex:i];
@@ -264,35 +209,9 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
                 itemName.length == 0 ||
                 itemPrice.length == 0 ||
                 itemCount.length == 0) {
-                failedCount++;
-                if (needStop) {
-                    if (itemNo.length != 0 &&
-                        itemTime.length != 0 &&
-                        itemName.length == 0 &&
-                        itemPrice.length == 0 &&
-                        itemCount.length == 0) {
-                        return CHAddStatusRetry;
-                    }
-                    [self log:@"Unkown Error! No.:%@, Time:%@, Status:%@, Name:%@, Price:%@, Count:%@", itemNo, itemTime, itemStatus, itemName, itemPrice, itemCount];
-                    return CHAddStatusError;
-                }
-                break;
-            }
-            if (itemColor.length != 0) {
-                if (![self.noEmptyColors containsObject:itemName]) {
-                    [self.noEmptyColors addObject:itemName];
-                }
-            } else if (self.autoRuned) {
-                if (!self.firstTimeDone) {
-                    continue;
-                } else if ([self.noEmptyColors containsObject:itemName] && ![self.saveColors containsObject:itemName]) {
-                    return CHAddStatusRetry;
-                }
-            } else {
-                if ([self.noEmptyColors containsObject:itemName] && ![self.saveColors containsObject:itemName]) {
-                    [self alertWithTitle:@"New color has empty, please check!"];
-                    return CHAddStatusOK;
-                }
+                [self log:@"Unkown Error! No.:%@, Time:%@, Status:%@, Name:%@, Price:%@, Count:%@", itemNo, itemTime, itemStatus, itemName, itemPrice, itemCount];
+                [self alertWithTitle:@"Failed. Look log for detail."];
+                return NO;
             }
             if (itemColor.length == 0) {
                 itemColor = @"无";
@@ -314,17 +233,11 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
         }
     }
     
-    if (failedCount == 0) {
-        [self toastWithTitle:@"All done! Next!"];
-        NSInteger cur = [self.webview currentPage];
-        BOOL isBefore = [self.webview isBefore3Months];
-        [self log:@"%@ Page %@ done!", isBefore ? @"Before" : @"Recent", @(cur)];
-    } else {
-        NSString *title = [NSString stringWithFormat:@"%@ items failed. Reflesh and Retry.", @(failedCount)];
-        [self alertWithTitle:title];
-    }
-    
-    return CHAddStatusOK;
+    [self toastWithTitle:@"All done! Next!"];
+    NSInteger cur = [self.webview currentPage];
+    BOOL isBefore = [self.webview isBefore3Months];
+    [self log:@"%@ Page %@ done!", isBefore ? @"Before" : @"Recent", @(cur)];
+    return YES;
 }
 
 - (void)log:(NSString *)content, ...
