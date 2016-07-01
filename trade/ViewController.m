@@ -184,12 +184,14 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
             NSInteger count = [self.webview listsCount];
             if (count == 1) {
                 [self allDone];
+                return;
             }
             [self.webview morePage];
         } else if (![self.webview isBefore3Months]) {
             [self.webview before3Months];
         } else {
             [self allDone];
+            return;
         }
         [self retry];
         return;
@@ -197,13 +199,13 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
         [self log:@"Retry page %@", @(cur)];
         if ([self.webview nextEnable]) {
             [self.webview next];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.webview prev];
                 [self retry];
             });
         } else if ([self.webview prevEnable]) {
             [self.webview prev];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.webview next];
                 [self retry];
             });
@@ -232,7 +234,7 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
 
 - (void)retry
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self autoRunStep];
     });
 }
