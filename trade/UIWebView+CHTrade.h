@@ -35,4 +35,5 @@
 - (NSString *)itemPriceWithIndex:(NSInteger)i jIndex:(NSInteger)j;
 - (NSString *)itemCountWithIndex:(NSInteger)i jIndex:(NSInteger)j;
 - (NSString *)itemColorWithIndex:(NSInteger)i jIndex:(NSInteger)j;
+- (NSString *)itemSizeWithIndex:(NSInteger)i jIndex:(NSInteger)j;
 @end

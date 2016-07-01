@@ -42,18 +42,6 @@
     [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.taobao.com"]]];
 }
 
-+ (NSString *)noEmptyColorFilePath {
-    return [[self documentsPath] stringByAppendingPathComponent:@"noEmpty.plist"];
-}
-
-+ (NSString *)saveColorFilePath {
-    return [[self documentsPath] stringByAppendingPathComponent:@"save.plist"];
-}
-
-+ (NSString *)documentsPath {
-    return NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-}
-
 #pragma mark - action
 - (IBAction)autoRun:(id)sender {
     self.autoRuned = !self.autoRuned;
@@ -196,12 +184,13 @@
         
         NSInteger itemsCount = [self.webview itemsCountWithIndex:i];
         for (NSInteger j = 0; j != itemsCount; j++) {
+            NSString *itemSize = [self.webview itemSizeWithIndex:i jIndex:j];
             NSString *itemRefunds = [self.webview itemRefundsWithIndex:i jIndex:j];
             NSString *itemName = [self.webview itemNameWithIndex:i jIndex:j];
             NSString *itemPrice = [self.webview itemPriceWithIndex:i jIndex:j];
             NSString *itemCount = [self.webview itemCountWithIndex:i jIndex:j];
             NSString *itemColor = [self.webview itemColorWithIndex:i jIndex:j];
-            NSLog(@"Name:%@，Price:%@, Count:%@, Color:%@", itemName, itemPrice, itemCount, itemColor);
+            NSLog(@"Name:%@，Price:%@, Count:%@, Color:%@, Size:%@, Refunds:%@", itemName, itemPrice, itemCount, itemColor, itemSize, itemRefunds);
             
             if (itemNo.length == 0 ||
                 itemTime.length == 0 ||
@@ -209,12 +198,15 @@
                 itemName.length == 0 ||
                 itemPrice.length == 0 ||
                 itemCount.length == 0) {
-                [self log:@"Unkown Error! No.:%@, Time:%@, Status:%@, Name:%@, Price:%@, Count:%@", itemNo, itemTime, itemStatus, itemName, itemPrice, itemCount];
+                [self log:@"Unkown Error! No.:%@, Time:%@, Status:%@, Name:%@, Price:%@, Count:%@, Size:%@, Refunds:%@", itemNo, itemTime, itemStatus, itemName, itemPrice, itemCount, itemSize, itemRefunds];
                 [self alertWithTitle:@"Failed. Look log for detail."];
                 return NO;
             }
             if (itemColor.length == 0) {
                 itemColor = @"无";
+            }
+            if (itemSize.length == 0) {
+                itemSize = @"无";
             }
             CHTradeItem *item = [[CHTradeItem alloc] init];
             item.number = itemNo;
@@ -227,6 +219,7 @@
             item.refunds = itemRefunds;
             item.name = itemName;
             item.color = itemColor;
+            item.size = itemSize;
             item.price = @(itemPrice.doubleValue);
             item.count = @(itemCount.integerValue);
             [[CHDBManager sharedInstance] addItem:item];

@@ -127,8 +127,34 @@
 
 - (NSString *)itemColorWithIndex:(NSInteger)i jIndex:(NSInteger)j
 {
-    return [self stringByEvaluatingJavaScriptFromString:[[self jsItemWithIndex:i jIndex:j] stringByAppendingString:@".getElementsByClassName('production-mod__sku-item___3s6lG')[0].getElementsByTagName('span')[2].innerHTML"]];
+    for (NSInteger k = 0; k != 3; k++) {
+        NSString *current = [NSString stringWithFormat:@".getElementsByClassName('production-mod__sku-item___3s6lG')[%@]", @(k)];
+        NSString *type = [self stringByEvaluatingJavaScriptFromString:[[[self jsItemWithIndex:i jIndex:j] stringByAppendingString:current] stringByAppendingString:@".getElementsByTagName('span')[0].innerHTML"]];
+        if (type.length == 0) {
+            return @"";
+        }
+        if ([type isEqualToString:@"颜色分类"]) {
+            return [self stringByEvaluatingJavaScriptFromString:[[[self jsItemWithIndex:i jIndex:j] stringByAppendingString:current] stringByAppendingString:@".getElementsByTagName('span')[2].innerHTML"]];
+        }
+    }
+    return @"";
 }
+
+- (NSString *)itemSizeWithIndex:(NSInteger)i jIndex:(NSInteger)j
+{
+    for (NSInteger k = 0; k != 3; k++) {
+        NSString *current = [NSString stringWithFormat:@".getElementsByClassName('production-mod__sku-item___3s6lG')[%@]", @(k)];
+        NSString *type = [self stringByEvaluatingJavaScriptFromString:[[[self jsItemWithIndex:i jIndex:j] stringByAppendingString:current] stringByAppendingString:@".getElementsByTagName('span')[0].innerHTML"]];
+        if (type.length == 0) {
+            return @"";
+        }
+        if ([type isEqualToString:@"尺码"]) {
+            return [self stringByEvaluatingJavaScriptFromString:[[[self jsItemWithIndex:i jIndex:j] stringByAppendingString:current] stringByAppendingString:@".getElementsByTagName('span')[2].innerHTML"]];
+        }
+    }
+    return @"";
+}
+
 #pragma mark - internal
 - (NSString*)jsItemsWithIndex:(NSInteger)i
 {

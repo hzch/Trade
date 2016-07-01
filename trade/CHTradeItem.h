@@ -17,6 +17,7 @@
 @property (nonatomic) NSString *refunds;
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *color;
+@property (nonatomic) NSString *size;
 @property (nonatomic) NSNumber *price;
 @property (nonatomic) NSNumber *count;
 

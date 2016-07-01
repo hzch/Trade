@@ -47,8 +47,8 @@
 
 - (void)addItem:(CHTradeItem*)item
 {
-    NSString* sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO list (number,date,dateString,status,refunds,name,color,price,count) VALUES (?,?,?,?,?,?,?,?,?)"];
-    NSArray *values = @[item.number,item.date,item.dateString,item.status,item.refunds,item.name,item.color,item.price,item.count];
+    NSString* sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO list (number,date,dateString,status,refunds,name,color,size,price,count) VALUES (?,?,?,?,?,?,?,?,?,?)"];
+    NSArray *values = @[item.number,item.date,item.dateString,item.status,item.refunds,item.name,item.color,item.size,item.price,item.count];
     BOOL success = [self.db executeUpdate:sql withArgumentsInArray:values];
     if (!success) {
         NSLog(@"%@",self.db.lastError);
@@ -100,9 +100,10 @@
     @" refunds TEXT NOT NULL,"
     @" name TEXT NOT NULL,"
     @" color TEXT NOT NULL,"
+    @" size TEXT NOT NULL,"
     @" price REAL NOT NULL,"
     @" count INTEGER NOT NULL,"
-    @" primary key(number, name, color))";
+    @" primary key(number, name, color, size))";
 }
 
 @end
