@@ -35,6 +35,10 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
 @property (nonatomic) BOOL autoRuned;
 @property (weak, nonatomic) IBOutlet UITextView *logTextView;
 
+@property (nonatomic) NSMutableArray *noEmptyColors;
+@property (nonatomic) BOOL firstTimeDone;
+@property (nonatomic) NSArray *saveColors;
+
 @end
 
 @implementation ViewController
@@ -43,18 +47,122 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
     [super viewDidLoad];
     self.moreView.hidden = YES;
     self.autoRuned = NO;
+    self.noEmptyColors = [NSMutableArray arrayWithArray:[NSArray arrayWithContentsOfFile:[self.class noEmptyColorFilePath]] ?: @[]];
+    self.saveColors = [NSArray arrayWithContentsOfFile:[self.class saveColorFilePath]] ?: @[];
+    if (self.saveColors.count == 0) {
+        self.saveColors = @[@"【侠菩提】霹雳衍生十佛周边手链手钏/星沙石手钏/汉服古装配饰",
+                            @"【汉服二手】褙子、上襦、半臂等",
+                            @"水墨复古线装本仿古速写笔手工本 中国风日记本古风本 礼品",
+                            @"福字锁牌古风璎珞项圈 古风汉服配饰 古装COS 创意手工礼品",
+                            @"{蝶恋花}璎珞项圈 古风汉服配饰 古装COS 创意手工礼品",
+                            @"{寒烟翠}璎珞项圈 古风汉服配饰 古装COS饰品 创意手工礼品",
+                            @"青花复古线装本 仿古速写笔 日记本古风本创意文具礼品",
+                            @"{水云间}璎珞项圈 古风汉服配饰 古装COS 创意手工礼品",
+                            @"青花陶瓷项链古风饰品 /民族风古风毛衣链/创意精美礼品",
+                            @"古风饰品龙凤玉佩对佩岫玉汉白玉 汉服配饰 挂件情侣配件",
+                            @"古风饰品龙凤玉佩对佩岫玉汉白玉"];
+        [self.saveColors writeToFile:[self.class saveColorFilePath] atomically:YES];
+    }
     [CHDBManager sharedInstance];
     
     [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.taobao.com"]]];
 }
 
++ (NSString *)noEmptyColorFilePath {
+    return [[self documentsPath] stringByAppendingPathComponent:@"noEmpty.plist"];
+}
+
++ (NSString *)saveColorFilePath {
+    return [[self documentsPath] stringByAppendingPathComponent:@"save.plist"];
+}
+
++ (NSString *)documentsPath {
+    return NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+}
+
+#pragma mark - action
 - (IBAction)autoRun:(id)sender {
+    self.saveColors = [NSArray arrayWithContentsOfFile:[self.class saveColorFilePath]] ?: @[];
     self.autoRuned = !self.autoRuned;
     if (self.autoRuned) {
         [self autoRunStep];
     }
 }
 
+- (IBAction)go:(id)sender {
+    [self.webview latest3Months];
+}
+
+- (IBAction)prev:(id)sender {
+    [self.webview prev];
+}
+
+- (IBAction)next:(id)sender {
+    [self.webview next];
+}
+
+- (IBAction)fresh:(id)sender {
+    [self.webview reload];
+}
+
+- (IBAction)foot:(id)sender {
+    [self.webview foot];
+}
+
+- (IBAction)more:(id)sender {
+    self.moreView.hidden = !self.moreView.hidden;
+}
+
+- (IBAction)add:(id)sender {
+    [self addNeedStop:NO];
+}
+
+- (IBAction)save:(id)sender {
+    NSError *error = [CHDBManager save];
+    if (error == nil) {
+        [self toastWithTitle:@"Successed!"];
+    } else {
+        NSString *title = [NSString stringWithFormat:@"Error:%@", error];
+        [self alertWithTitle:title];
+    }
+}
+
+- (IBAction)clean:(id)sender {
+    NSError *error = [CHDBManager clean];
+    if (error == nil) {
+        [self toastWithTitle:@"Successed!"];
+    } else {
+        NSString *title = [NSString stringWithFormat:@"Error:%@", error];
+        [self alertWithTitle:title];
+    }
+}
+
+#pragma mark - alert
+- (void)toastWithTitle:(NSString*)title
+{
+    if (self.autoRuned) {
+        return;
+    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:alert animated:YES completion:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        });
+    }];
+}
+
+- (void)alertWithTitle:(NSString*)title
+{
+    if (self.autoRuned) {
+        return;
+    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:NULL];
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:NULL];
+}
+
+#pragma mark - private
 - (void)autoRunStep
 {
     if (!self.autoRuned) {
@@ -111,7 +219,13 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
 
 - (void)allDone
 {
-    [[CHDBManager sharedInstance] cleanDirty];
+    [self.noEmptyColors writeToFile:[self.class noEmptyColorFilePath] atomically:YES];
+    if (!self.firstTimeDone) {
+        self.firstTimeDone = YES;
+        [self.webview latest3Months];
+        [self retry];
+        return;
+    }
     [self log:@"All done!!"];
     self.autoRuned = NO;
 }
@@ -121,81 +235,6 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self autoRunStep];
     });
-}
-
-- (IBAction)go:(id)sender {
-    [self.webview latest3Months];
-}
-
-- (IBAction)prev:(id)sender {
-    [self.webview prev];
-}
-
-- (IBAction)next:(id)sender {
-    [self.webview next];
-}
-
-- (IBAction)fresh:(id)sender {
-    [self.webview reload];
-}
-
-- (IBAction)foot:(id)sender {
-    [self.webview foot];
-}
-
-- (IBAction)more:(id)sender {
-    self.moreView.hidden = !self.moreView.hidden;
-}
-
-- (IBAction)save:(id)sender {
-    NSError *error = [CHDBManager save];
-    if (error == nil) {
-        [self toastWithTitle:@"Successed!"];
-    } else {
-        NSString *title = [NSString stringWithFormat:@"Error:%@", error];
-        [self alertWithTitle:title];
-    }
-}
-
-- (IBAction)clean:(id)sender {
-    NSError *error = [CHDBManager clean];
-    if (error == nil) {
-        [self toastWithTitle:@"Successed!"];
-    } else {
-        NSString *title = [NSString stringWithFormat:@"Error:%@", error];
-        [self alertWithTitle:title];
-    }
-}
-
-- (void)toastWithTitle:(NSString*)title
-{
-    if (self.autoRuned) {
-        return;
-    }
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [self presentViewController:alert animated:YES completion:^{
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self dismissViewControllerAnimated:YES completion:NULL];
-        });
-    }];
-}
-
-- (void)alertWithTitle:(NSString*)title
-{
-    if (self.autoRuned) {
-        return;
-    }
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:NULL];
-    [alert addAction:action];
-    [self presentViewController:alert animated:YES completion:NULL];
-}
-
-- (IBAction)add:(id)sender {
-    [self addNeedStop:NO];
-}
-- (IBAction)cleanDirty:(id)sender {
-    [self toastWithTitle:[NSString stringWithFormat:@"%@ items clean!",@([[CHDBManager sharedInstance] cleanDirty])]];;
 }
 
 - (CHAddStatus)addNeedStop:(BOOL)needStop {
@@ -236,6 +275,22 @@ typedef NS_ENUM(NSUInteger, CHAddStatus) {
                     return CHAddStatusError;
                 }
                 break;
+            }
+            if (itemColor.length != 0) {
+                if (![self.noEmptyColors containsObject:itemName]) {
+                    [self.noEmptyColors addObject:itemName];
+                }
+            } else if (self.autoRuned) {
+                if (!self.firstTimeDone) {
+                    continue;
+                } else if ([self.noEmptyColors containsObject:itemName] && ![self.saveColors containsObject:itemName]) {
+                    return CHAddStatusRetry;
+                }
+            } else {
+                if ([self.noEmptyColors containsObject:itemName] && ![self.saveColors containsObject:itemName]) {
+                    [self alertWithTitle:@"New color has empty, please check!"];
+                    return CHAddStatusOK;
+                }
             }
             if (itemColor.length == 0) {
                 itemColor = @"无";
