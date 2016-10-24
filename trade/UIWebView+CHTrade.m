@@ -117,7 +117,7 @@
 
 - (NSString *)itemPriceWithIndex:(NSInteger)i jIndex:(NSInteger)j
 {
-    return [self stringByEvaluatingJavaScriptFromString:[[self jsItemWithIndex:i jIndex:j] stringByAppendingString:@".getElementsByTagName('td')[1].getElementsByTagName('p')[0].innerHTML"]];
+    return [self stringByEvaluatingJavaScriptFromString:[[self jsItemWithIndex:i jIndex:j] stringByAppendingString:@".getElementsByTagName('td')[1].getElementsByTagName('p')[0].getElementsByTagName('span')[1].innerHTML"]];
 }
 
 - (NSString *)itemCountWithIndex:(NSInteger)i jIndex:(NSInteger)j
